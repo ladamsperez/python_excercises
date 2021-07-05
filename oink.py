@@ -16,16 +16,6 @@
 # After a 1 is rolled or the player holds, the other player takes their turn.
 # The first player is chosen randomly. (For example, you could flip a coin or both roll a die and pick the higher roll.)
 # In your implementation, there will be one human player and one computer player. The computer player will always hold until they roll a total of 20 points.
-
-
-# "Choose Heads or Tails:"
-# User input ___
-# "Coin flip! Player ___ goes first!"
-
-# ***AI will ALWAYS hold until it gets to a sum 20 points in a turn-
-    #how and where to handle this???
-# after every turn, print players score
-
 from icecream import ic
 import random
 
@@ -35,11 +25,10 @@ def greeting():
     print("Oink! Oink! Let's Pig Out!")
 
 class Player:
-    def __init__(self, type):
+    def __init__(self):
         self.type = type
         self.score = 0
-
-
+        
 # Player Rolls
     def move(self, die):
         if self.type == "human_player":
@@ -47,32 +36,61 @@ class Player:
         else:
             self.AI_move(die)
         
-    
     def human_move(self, die):
         '''This move defines human's action in turn. Will ask human to hold or keep rolling.'''
-        score = die.roll()
-        self.score += score
-        ic(score)
+        round_score=0
+        again='y'
+        #establish a while loop for the player's turn
+        while again=='y':
+            self.die.roll()
+            roll=self.die.face
+            if roll==1:
+                print ('{} rolled a 1'.format(self.human_move))
+                round_score=0
+                again='n'
+            else:
+                print( '{} rolled a {}'.format(self.human_move,roll))
+                round_score=round_score+roll
+                print( "{}'s round score is {}".format(self.human_move,round_score))
+                again=input('roll again? (y/n)')
+        self.score+=round_score
+        print ("{}'s turn is over".format(self.human_move))
+        print( "{}'s total score is {}\n\n".format(self.human_move,self.score))
         
 
     def AI_move(self, die):
         '''This move defines AI's action in turn. Will hold until sum of 20 points within turn.'''
-        score = die.roll()
-        self.score += score
-        ic(score)
+        round_score=0
+        again='y'
+        #establish a while loop for the computer's turn
+        while again=='y':
+            self.die.roll()
+            roll=self.die.face
+            if roll==1:
+                print ('{} rolled a 1'.format(self.name))
+                roundScore=0
+                again='n'
+            else:
+                print( '{} rolled a {}'.format(self.name,roll))
+                round_score=round_score+roll
+                if round_score < 20:
+                    print( '{} will roll again'.format(self.name))
+                else:
+                    again='n'
+        self.score+=round_score
+        print( 'Turn is over')
+        print( "{}'s round score is {}".format(self.AI_move,round_score))
+        print( "{}'s total score is {}\n\n".format(self.AI_move,self.score))
     
     
 class Die:
     def __init__(self, n = 6):
         self.sides = n
-
+        self.roll()
+        
     def roll(self):
-        # Random number that is 1-6 
-        return random.randint(1, self.sides)
+        self.face=int(random.random()*self.sides+1)
 
-# die = Die()
-# "Print Roll: __"
-# print(die.roll())
 
 class Game:
     def __init__(self):
@@ -108,30 +126,6 @@ class Game:
         else:
             print("Player 2 wins!")
             return
-    # No: continue
-
-            # "print: play again? Yes or No?
-            # user input_ yes or no
-            #   yes: play again
-            #   no: "Print: Game Over. Goodbye!"
-
-
-#is it 1?
-    # yes: "print: No points! Next player's turn."
-            #display players' points
-
-    # no: "Print total turn sum:__. Would you like to hold or keep rollin'?"
-        #user input: hold
-            #Update score: add total turn points to score +=
-            # "Print total turn sum:__."
-            #display players' points
-            # next player's turn 
-        #user input: Roll, roll, r, keep rolling, Keep Rolling, Keep Rollin, keep rollin
-            #go back to "Player rolls"
-
-
-
-
 
 def main():
     greeting()
